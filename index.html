@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sklep Koronahub.pl - Rangi Minecraft</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #121214;
+            color: #e1e1e6;
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        header {
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(18, 18, 20, 1)), 
+                        url('https://images.unsplash.com/photo-1607988795691-3d0147b43231?q=80&w=1200') no-repeat center center/cover;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-bottom: 4px solid #f1c40f;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            color: #ffffff;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.9);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #f1c40f;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.2rem;
+            color: #ffffff;
+        }
+
+        .section-title span {
+            color: #f1c40f;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background-color: #1a1a1e;
+            border-radius: 12px;
+            border: 1px solid #29292e;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: #f1c40f;
+            box-shadow: 0 12px 24px rgba(241, 196, 15, 0.15);
+        }
+
+        .card-badge {
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3.5rem;
+            border-bottom: 2px solid #29292e;
+        }
+
+        .card-body {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .rank-name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .rank-features {
+            list-style: none;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            color: #c4c4cc;
+        }
+
+        .rank-features li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .rank-features li::before {
+            content: "✔";
+            position: absolute;
+            left: 0;
+            color: #2ecc71;
+        }
+
+        .price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #f1c40f;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+
+        .buy-button {
+            width: 100%;
+            background-color: #f1c40f;
+            color: #121214;
+            border: none;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .buy-button:hover {
+            background-color: #d4ac0d;
+        }
+
+        /* Sekcja Komend konsoli */
+        .commands-section {
+            background-color: #1a1a1e;
+            border: 1px solid #29292e;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .commands-section h3 {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 15px;
+            border-left: 4px solid #f1c40f;
+            padding-left: 10px;
+        }
+
+        .code-block {
+            background-color: #09090a;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            color: #2ecc71;
+            overflow-x: auto;
+            border: 1px solid #29292e;
+            margin-bottom: 15px;
+        }
+
+        /* Modal Płatności (Zakładki) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: #1a1a1e;
+            border: 2px solid #f1c40f;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 550px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .tabs {
+            display: flex;
+            margin: 20px 0;
+            border-bottom: 2px solid #29292e;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #7c7c8a;
+            padding: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .tab-btn.active {
+            color: #f1c40f;
+            border-bottom: 2px solid #f1c40f;
+            margin-bottom: -2px;
+        }
+
+        .tab-content {
+            display: none;
+            background-color: #09090a;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #29292e;
+            margin-bottom: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #1a1a1e;
+            border: 1px solid #29292e;
+            color: #fff;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+
+        .submit-payment-btn {
+            width: 100%;
+            background-color: #2ecc71;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .submit-payment-btn:hover {
+            background-color: #27ae60;
+        }
+
+        .close-button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: #09090a;
+            color: #7c7c8a;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>KORONAHUB.PL</h1>
+        <p>Oficjalny Sklep Serwera Minecraft</p>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">Wybierz swoją <span>Rangę</span></h2>
+
+        <div class="grid">
+            <!-- VIP -->
+            <div class="card">
+                <div class="card-badge" style="background: linear-gradient(135deg, #34495e, #2c3e50);">👑</div>
+                <div class="card-body">
+                    <div>
+                        <h3 class="rank-name" style="color: #bdc3c7;">VIP</h3>
+                        <ul class="rank-features">
+                            <li>Dostęp do komendy /fly</li>
+                            <li>Unikalny prefiks na czacie serwera</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="price">5,00 zł</span>
+                        <button class="buy-button" onclick="openPayment('VIP', '5,00 zł')">Kup rangę</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SVIP -->
+            <div class="card">
+                <div class="card-badge" style="background: linear-gradient(135deg, #2980b9, #3498db);">💎</div>
+                <div class="card-body">
+                    <div>
+                        <h3 class="rank-name" style="color: #54a0ff;">SVIP</h3>
+                        <ul class="rank-features">
+                            <li>Wszystko co ma VIP + komenda /heal</li>
+                            <li>Pisanie kolorami na czacie globalnym</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="price">10,00 zł</span>
+                        <button class="buy-button" onclick="openPayment('SVIP', '10,00 zł')">Kup rangę</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Elita -->
+            <div class="card">
+                <div class="card-badge" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">✨</div>
+                <div class="card-body">
+                    <div>
+                        <h3 class="rank-name" style="color: #2ecc71;">ELITA</h3>
+                        <ul class="rank-features">
+                            <li>Rezerwacja slotu (wejście gdy serwer pełen)</li>
+                            <li>Komenda zakładania bloku na głowę /hat</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="price">15,00 zł</span>
+                        <button class="buy-button" onclick="openPayment('ELITA', '15,00 zł')">Kup rangę</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sponsor -->
+            <div class="card">
+                <div class="card-badge" style="background: linear-gradient(135deg, #8e44ad, #9b59b6);">🔮</div>
+                <div class="card-body">
+                    <div>
+                        <h3 class="rank-name" style="color: #a55eea;">SPONSOR</h3>
+                        <ul class="rank-features">
+                            <li>Pisanie ogłoszeń na ekranie graczy (/bc)</li>
+                            <li>Własny dedykowany pokój na Discordzie serwera</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="price">20,00 zł</span>
+                        <button class="buy-button" onclick="openPayment('SPONSOR', '20,00 zł')">Kup rangę</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Król -->
+            <div class="card">
+                <div class="card-badge" style="background: linear-gradient(135deg, #d35400, #e67e22);">⚔</div>
+                <div class="card-body">
+                    <div>
+                        <h3 class="rank-name" style="color: #ff9f43;">KRÓL</h3>
+                        <ul class="rank-features">
+                            <li>Dostęp do trybu niewidzialności /vanish</li>
+                            <li>Prefix [KRÓL] w kolorze złoto-pomarańczowym</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="price">25,00 zł</span>
+                        <button class="buy-button" onclick="openPayment('KRÓL', '25,00 zł')">Kup rangę</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin -->
+            <div class="card">
+                <div class="card-badge" style="background: linear-gradient(135deg, #c0392b, #e74c3c);">🛑</div>
+                <div class="card-body">
+                    <div>
+                        <h3 class="rank-name" style="color: #ff4d4d;">ADMIN</h3>
+                        <ul class="rank-features">
+                            <li>Pełne uprawnienia OP i zarządzanie serwerem</li>
+                            <li>Dostęp do trybu kreatywnego /gamemode creative</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="price">200,00 zł</span>
+                        <button class="buy-button" onclick="openPayment('ADMIN', '200,00 zł')">Kup rangę</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sekcja Komend dla Ciebie -->
+        <div class="commands-section">
+            <h3>💻 Komendy konsoli na nadanie rangi</h3>
+            <p>Użyj poniższych komend w konsoli serwera (Plugin LuckPerms), aby ręcznie nadać rangę po otrzymaniu wpłaty:</p>
+            <div class="code-block">lp user {NICK} parent set {vip/svip/elita/sponsor/krol/admin}</div>
+        </div>
+    </div>
+
+    <!-- Okno płatności (Modal z zakładkami) -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <h3 style="text-align: center;">Bramka płatności Koronahub.pl</h3>
+            <p style="text-align: center; margin-top: 5px;">Ranga: <strong id="modalRankName" style="color:#f1c40f;">-</strong> | Cena: <strong id="modalRankPrice" style="color:#f1c40f;">-</strong></p>
+            
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('blik')">📱 BLIK</button>
+                <button class="tab-btn" onclick="switchTab('psc')">💳 PaySafeCard</button>
+                <button class="tab-btn" onclick="switchTab('bank')">🏦 Przelew</button>
+            </div>
+
+            <!-- BLIK -->
+            <div id="tab-blik" class="tab-content active">
+                <p>Aby zapłacić BLIK-iem, zrób szybki przelew na telefon na numer:</p>
+                <!-- WPISZ SWÓJ NUMER TELEFONU BLIK PONIŻEJ -->
+                <h3 style="color: #2ecc71; text-align: center; margin: 15px 0; font-size: 1.8rem;">+48 000 000 000</h3>
+                <p style="font-size: 0.9rem; color: #bdc3c7;">W tytule przelewu koniecznie wpisz dokładnie: <br><strong id="blik-title" style="color: #f1c40f;">Ranga dla gracza</strong></p>
+            </div>
+
+            <!-- PSC -->
+            <div id="tab-psc" class="tab-content">
+                <p>Kup kartę PaySafeCard w sklepie lub kiosku za kwotę (<span id="psc-needed-price" style="color:#f1c40f; font-weight:bold;">-</span>).</p>
+                <p style="margin-top: 10px;">Wpisz poniżej swój 16-cyfrowy kod PIN z paragonu:</p>
+                <input type="text" id="psc-code" placeholder="0000-0000-0000-0000" maxlength="19">
+                <p style="margin-top: 15px; text-align: center;">
+                    <!-- TUTAJ JEST JUŻ TWÓJ NOWY LINK DO DISCORDA -->
+                    <a href="https://discord.gg/hRDYmCwmcg" target="_blank" style="color: #5865F2; font-weight: bold; text-decoration: none; background-color: #2f3136; padding: 8px 15px; border-radius: 4px; display: inline-block;">
+                        💬 Kliknij tutaj, aby wejść na nasz Discord serwera
+                    </a>
+                </p>
+                <p style="font-size: 0.85rem; color: #ff4d4d; margin-top: 15px; line-height: 1.3;">
+                    * Po kliknięciu "Zatwierdź płatność", podaj swój kod i nick na naszym Discordzie, aby natychmiast odebrać rangę!
+                </p>
+            </div>
+
+            <!-- BANK -->
+            <div id="tab-bank" class="tab-content">
+                <p>Zrób tradycyjny przelew bezpośredni na konto bankowe:</p>
+                <div style="margin-top:10px; font-size:0.9rem; color:#bdc3c7; background-color:#121214; padding:12px; border-radius:4px;">
+                    <!-- WPISZ NUMER KONTA BANKOWEGO PONIŻEJ -->
+                    <strong>Numer konta:</strong> 00 0000 0000 0000 0000 0000 0000<br>
+                    <strong>Odbiorca:</strong> Właściciel Koronahub.pl<br>
+                    <strong>Tytuł przelewu:</strong> <span id="modalTransferTitle" style="color:#2ecc71; font-weight:bold;">-</span>
+                </div>
+            </div>
+
+            <button class="submit-payment-btn" onclick="submitPayment()">Zatwierdź płatność</button>
+            <button class="close-button" onclick="closePayment()">Anuluj</button>
+        </div>
+    </div>
+
+    <script>
+        let currentNick = "";
+        let currentRank = "";
+
+        function openPayment(rankName, price) {
+            currentNick = prompt("Podaj swój dokładny nick z Minecraft:");
+            if (!currentNick) {
+                alert("Musisz podać swój nick z gry, aby kontynuować zakupy!");
+                return;
+            }
+            currentRank = rankName;
+            document.getElementById('modalRankName').innerText = rankName;
+            document.getElementById('modalRankPrice').innerText = price;
+            document.getElementById('psc-needed-price').innerText = price;
+            document.getElementById('modalTransferTitle').innerText = "Ranga " + rankName + " dla " + currentNick;
+            document.getElementById('blik-title').innerText = "Ranga " + rankName + " dla " + currentNick;
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
+
+        function closePayment() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tabName).classList.add('active');
+        }
+
+        function submitPayment() {
+            // Informacja i automatyczne przekierowanie na stały link Discorda
+            alert("Dziękujemy " + currentNick + "!\nZgłoszenie zostało zarejestrowane. Za chwilę zostaniesz automatycznie przekierowany na nasz serwer Discord, aby odebrać rangę u Administratora.");
+            window.location.href = "https://discord.gg/hRDYmCwmcg";
+        }
+    </script>
+</body>
+</html>

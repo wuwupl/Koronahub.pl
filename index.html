@@ -303,7 +303,6 @@
         <h2 class="section-title">Wybierz swoją <span>Rangę</span></h2>
 
         <div class="grid">
-            <!-- VIP -->
             <div class="card">
                 <div class="card-badge" style="background: linear-gradient(135deg, #34495e, #2c3e50);">👑</div>
                 <div class="card-body">
@@ -321,7 +320,6 @@
                 </div>
             </div>
 
-            <!-- SVIP -->
             <div class="card">
                 <div class="card-badge" style="background: linear-gradient(135deg, #2980b9, #3498db);">💎</div>
                 <div class="card-body">
@@ -339,7 +337,6 @@
                 </div>
             </div>
 
-            <!-- Elita -->
             <div class="card">
                 <div class="card-badge" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">✨</div>
                 <div class="card-body">
@@ -357,7 +354,6 @@
                 </div>
             </div>
 
-            <!-- Sponsor -->
             <div class="card">
                 <div class="card-badge" style="background: linear-gradient(135deg, #8e44ad, #9b59b6);">🔮</div>
                 <div class="card-body">
@@ -375,7 +371,6 @@
                 </div>
             </div>
 
-            <!-- Król -->
             <div class="card">
                 <div class="card-badge" style="background: linear-gradient(135deg, #d35400, #e67e22);">⚔</div>
                 <div class="card-body">
@@ -393,7 +388,6 @@
                 </div>
             </div>
 
-            <!-- Admin -->
             <div class="card">
                 <div class="card-badge" style="background: linear-gradient(135deg, #c0392b, #e74c3c);">🛑</div>
                 <div class="card-body">
@@ -412,7 +406,6 @@
             </div>
         </div>
 
-        <!-- Sekcja Komend dla Ciebie -->
         <div class="commands-section">
             <h3>💻 Komendy konsoli na nadanie rangi</h3>
             <p>Użyj poniższych komend w konsoli serwera (Plugin LuckPerms), aby ręcznie nadać rangę po otrzymaniu wpłaty:</p>
@@ -420,7 +413,6 @@
         </div>
     </div>
 
-    <!-- Okno płatności (Modal z zakładkami) -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <h3 style="text-align: center;">Bramka płatności Koronahub.pl</h3>
@@ -432,21 +424,17 @@
                 <button class="tab-btn" onclick="switchTab('bank')">🏦 Przelew</button>
             </div>
 
-            <!-- BLIK -->
             <div id="tab-blik" class="tab-content active">
                 <p>Aby zapłacić BLIK-iem, zrób szybki przelew na telefon na numer:</p>
-                <!-- WPISZ SWÓJ NUMER TELEFONU BLIK PONIŻEJ -->
                 <h3 style="color: #2ecc71; text-align: center; margin: 15px 0; font-size: 1.8rem;">+48 000 000 000</h3>
                 <p style="font-size: 0.9rem; color: #bdc3c7;">W tytule przelewu koniecznie wpisz dokładnie: <br><strong id="blik-title" style="color: #f1c40f;">Ranga dla gracza</strong></p>
             </div>
 
-            <!-- PSC -->
             <div id="tab-psc" class="tab-content">
                 <p>Kup kartę PaySafeCard w sklepie lub kiosku za kwotę (<span id="psc-needed-price" style="color:#f1c40f; font-weight:bold;">-</span>).</p>
                 <p style="margin-top: 10px;">Wpisz poniżej swój 16-cyfrowy kod PIN z paragonu:</p>
                 <input type="text" id="psc-code" placeholder="0000-0000-0000-0000" maxlength="19">
                 <p style="margin-top: 15px; text-align: center;">
-                    <!-- TUTAJ JEST JUŻ TWÓJ NOWY LINK DO DISCORDA -->
                     <a href="https://discord.gg/hRDYmCwmcg" target="_blank" style="color: #5865F2; font-weight: bold; text-decoration: none; background-color: #2f3136; padding: 8px 15px; border-radius: 4px; display: inline-block;">
                         💬 Kliknij tutaj, aby wejść na nasz Discord serwera
                     </a>
@@ -456,11 +444,9 @@
                 </p>
             </div>
 
-            <!-- BANK -->
             <div id="tab-bank" class="tab-content">
                 <p>Zrób tradycyjny przelew bezpośredni na konto bankowe:</p>
                 <div style="margin-top:10px; font-size:0.9rem; color:#bdc3c7; background-color:#121214; padding:12px; border-radius:4px;">
-                    <!-- WPISZ NUMER KONTA BANKOWEGO PONIŻEJ -->
                     <strong>Numer konta:</strong> 00 0000 0000 0000 0000 0000 0000<br>
                     <strong>Odbiorca:</strong> Właściciel Koronahub.pl<br>
                     <strong>Tytuł przelewu:</strong> <span id="modalTransferTitle" style="color:#2ecc71; font-weight:bold;">-</span>
@@ -504,7 +490,6 @@
         }
 
         function submitPayment() {
-            // Informacja i automatyczne przekierowanie na stały link Discorda
             alert("Dziękujemy " + currentNick + "!\nZgłoszenie zostało zarejestrowane. Za chwilę zostaniesz automatycznie przekierowany na nasz serwer Discord, aby odebrać rangę u Administratora.");
             window.location.href = "https://discord.gg/hRDYmCwmcg";
         }
